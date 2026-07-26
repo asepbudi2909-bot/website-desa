@@ -1,7 +1,8 @@
 import { error, fail, redirect, type Actions } from '@sveltejs/kit';
+import { getContentById, updateContent } from '$lib/server/db';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ params, fetch }) => {
+export const load: PageServerLoad = async ({ params, platform }) => {
 	if (!params.id) {
 		throw error(400, 'ID Konten tidak valid');
 	}
@@ -10,20 +11,19 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 		throw error(400, 'ID Konten tidak valid');
 	}
 
-	const res = await fetch(`/api/contents/${id}`);
-	const result = await res.json() as { success: boolean; data?: VillageContent; message?: string };
+	const content = await getContentById(platform, id);
 
-	if (!result.success || !result.data) {
-		throw error(404, result.message || 'Konten tidak ditemukan di Cloudflare D1 Database');
+	if (!content) {
+		throw error(404, 'Konten tidak ditemukan di Cloudflare D1 Database');
 	}
 
 	return {
-		content: result.data
+		content
 	};
 };
 
 export const actions: Actions = {
-	default: async ({ params, request, fetch }) => {
+	default: async ({ params, request, platform }) => {
 		if (!params.id) {
 			return fail(400, { message: 'ID Konten tidak valid' });
 		}
@@ -62,28 +62,16 @@ export const actions: Actions = {
 		}
 
 		try {
-			const res = await fetch(`/api/contents/${id}`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					title,
-					category,
-					summary,
-					body,
-					author,
-					event_date,
-					image_type: image_type || 'url',
-					image_url
-				})
+			await updateContent(platform, id, {
+				title,
+				category,
+				summary,
+				body,
+				author,
+				event_date,
+				image_type: image_type || 'url',
+				image_url
 			});
-
-			const result = await res.json() as { success: boolean; message?: string };
-
-			if (!result.success) {
-				return fail(400, { message: result.message || 'Gagal menguraikan pembaruan ke Cloudflare D1' });
-			}
 		} catch (err: any) {
 			console.error('Error updating D1 content:', err);
 			return fail(500, { message: err.message || 'Gagal menguraikan pembaruan ke Cloudflare D1' });
