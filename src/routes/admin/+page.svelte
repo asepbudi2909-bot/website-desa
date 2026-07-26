@@ -44,13 +44,22 @@
 			<p class="admin-subtitle">Kelola Berita, Acara, dan Pengumuman publik desa secara terpusat.</p>
 		</div>
 
-		<a href="/admin/create" class="btn btn-primary btn-create">
-			<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<line x1="12" x2="12" y1="5" y2="19"/>
-				<line x1="5" x2="19" y1="12" y2="12"/>
-			</svg>
-			Tambah Konten Baru
-		</a>
+		<div class="header-actions">
+			<a href="/admin/config" class="btn btn-secondary">
+				<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+					<circle cx="12" cy="12" r="3"/>
+				</svg>
+				Konfigurasi Desa
+			</a>
+			<a href="/admin/create" class="btn btn-primary btn-create">
+				<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<line x1="12" x2="12" y1="5" y2="19"/>
+					<line x1="5" x2="19" y1="12" y2="12"/>
+				</svg>
+				Tambah Konten Baru
+			</a>
+		</div>
 	</header>
 
 	{#if form?.message}
@@ -194,6 +203,32 @@
 		flex-wrap: wrap;
 		gap: 1.5rem;
 		margin-bottom: 2rem;
+	}
+
+	.header-actions {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.btn-secondary {
+		background: rgba(255, 255, 255, 0.1);
+		color: #ffffff;
+		padding: 0.75rem 1.25rem;
+		border-radius: var(--radius-md);
+		font-weight: 600;
+		text-decoration: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		transition: all 0.3s ease;
+		border: 1px solid rgba(255, 255, 255, 0.2);
+	}
+
+	.btn-secondary:hover {
+		background: rgba(255, 255, 255, 0.15);
+		border-color: rgba(255, 255, 255, 0.3);
+		transform: translateY(-2px);
 	}
 
 	.cms-badge {

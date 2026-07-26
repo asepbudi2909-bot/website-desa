@@ -17,9 +17,52 @@ CREATE TABLE IF NOT EXISTS contents (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Tabel baru untuk konfigurasi identitas desa
+CREATE TABLE IF NOT EXISTS village_config (
+    id INTEGER PRIMARY KEY CHECK (id = 1), -- Hanya satu baris konfigurasi
+    village_name TEXT NOT NULL DEFAULT 'Desa Sukamaju',
+    village_code TEXT, -- Kode desa resmi
+    district_name TEXT, -- Nama kecamatan
+    regency_name TEXT, -- Nama kabupaten/kota
+    province_name TEXT, -- Nama provinsi
+    postal_code TEXT, -- Kode pos
+    address TEXT, -- Alamat lengkap kantor desa
+    phone TEXT, -- Nomor telepon
+    email TEXT, -- Email resmi
+    website TEXT, -- URL website
+    head_of_village TEXT, -- Nama kepala desa
+    head_title TEXT DEFAULT 'Kepala Desa', -- Gelar/jabatan kepala desa
+    description TEXT, -- Deskripsi singkat desa
+    logo_image_type TEXT CHECK(logo_image_type IN ('r2', 'url')) DEFAULT 'url',
+    logo_image_url TEXT, -- URL logo desa
+    banner_image_type TEXT CHECK(banner_image_type IN ('r2', 'url')) DEFAULT 'url',
+    banner_image_url TEXT, -- URL banner/hero image
+    primary_color TEXT DEFAULT '#059669', -- Warna utama (emerald-600)
+    secondary_color TEXT DEFAULT '#0284c7', -- Warna sekunder (sky-600)
+    social_media_facebook TEXT, -- Link Facebook
+    social_media_instagram TEXT, -- Link Instagram
+    social_media_twitter TEXT, -- Link Twitter/X
+    social_media_youtube TEXT, -- Link YouTube
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Indeks untuk mempercepat pencarian berdasarkan kategori & slug
 CREATE INDEX IF NOT EXISTS idx_contents_category ON contents(category);
 CREATE INDEX IF NOT EXISTS idx_contents_slug ON contents(slug);
+
+-- Data Awal Konfigurasi Desa (Default)
+INSERT OR IGNORE INTO village_config (id, village_name, district_name, regency_name, province_name, head_of_village, description, logo_image_url, banner_image_url) 
+VALUES (
+    1,
+    'Desa Sukamaju',
+    'Kecamatan Majujaya',
+    'Kabupaten Sejahtera',
+    'Provinsi Makmur',
+    'Bapak Ahmad Suryadi',
+    'Desa Sukamaju adalah desa yang asri dan modern dengan komitmen terhadap pelayanan publik berbasis teknologi digital untuk kesejahteraan seluruh warga.',
+    'https://images.unsplash.com/photo-1596483758362-e03c5e0d8b9f?auto=format&fit=crop&w=200&q=80',
+    'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80'
+);
 
 -- Data Awal (Seed Data Demo Desa Sukamaju)
 INSERT OR IGNORE INTO contents (id, slug, title, category, summary, body, image_type, image_url, author, is_published, event_date) 
