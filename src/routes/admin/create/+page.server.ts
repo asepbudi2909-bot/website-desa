@@ -1,8 +1,7 @@
 import { fail, redirect, type Actions } from '@sveltejs/kit';
-import { createContent } from '$lib/server/db';
 
 export const actions: Actions = {
-	default: async ({ request, platform }) => {
+	default: async ({ request, fetch }) => {
 		const formData = await request.formData();
 
 		const title = formData.get('title')?.toString().trim();
@@ -32,18 +31,30 @@ export const actions: Actions = {
 		}
 
 		try {
-			await createContent(platform, {
-				title,
-				category,
-				summary,
-				body,
-				author,
-				event_date,
-				image_type: image_type || 'url',
-				image_url
+			const res = await fetch('/api/contents', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					title,
+					category,
+					summary,
+					body,
+					author,
+					event_date,
+					image_type: image_type || 'url',
+					image_url
+				})
 			});
+
+			const result = await res.json() as { success: boolean; message?: string };
+
+			if (!result.success) {
+				return fail(400, { message: result.message || 'Gagal menyimpan konten ke Cloudflare D1' });
+			}
 		} catch (err: any) {
-			console.error('Failed to create content in D1:', err);
+			console.error('Failed to create content via API:', err);
 			return fail(500, { message: err.message || 'Gagal menyimpan konten ke Cloudflare D1' });
 		}
 
