@@ -39,7 +39,7 @@
 	<!-- Admin Header -->
 	<header class="admin-header">
 		<div>
-			<div class="cms-badge">⚙️ Cloudflare D1 & R2 Control Panel</div>
+			<div class="cms-badge">⚙️ Panel Administrasi Konten</div>
 			<h1 class="admin-title">Manajemen Konten Desa</h1>
 			<p class="admin-subtitle">Kelola Berita, Acara, dan Pengumuman publik desa secara terpusat.</p>
 		</div>
@@ -78,7 +78,7 @@
 			<span class="metric-num text-amber">{stats.pengumuman}</span>
 		</div>
 		<div class="metric-card glass-panel">
-			<span class="metric-label">☁️ R2 Storage Images</span>
+			<span class="metric-label">☁️ Gambar Tersimpan</span>
 			<span class="metric-num text-emerald">{stats.r2Count}</span>
 		</div>
 	</div>
@@ -143,7 +143,7 @@
 								</td>
 								<td>
 									<span class="badge badge-{item.image_type}">
-										{item.image_type === 'r2' ? '☁️ Cloudflare R2' : '🌐 URL External'}
+										{item.image_type === 'r2' ? '☁️ Server' : '🌐 Tautan Eksternal'}
 									</span>
 								</td>
 								<td class="text-secondary">{item.author}</td>

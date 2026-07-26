@@ -11,7 +11,7 @@
 
 <svelte:head>
 	<title>Website Resmi Desa Sukamaju - Cloud Native CMS</title>
-	<meta name="description" content="Portal Berita, Acara, dan Pengumuman Resmi Desa Sukamaju berbasis Cloudflare Pages, D1 Database, dan R2 Bucket Storage." />
+	<meta name="description" content="Portal Berita, Acara, dan Pengumuman Resmi Desa Sukamaju berbasis teknologi modern untuk masyarakat desa." />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 </svelte:head>
 
@@ -28,7 +28,7 @@
 				</div>
 				<div class="brand-text">
 					<span class="brand-title">DESA SUKAMAJU</span>
-					<span class="brand-subtitle">Cloudflare Pages & D1 Engine</span>
+					<span class="brand-subtitle">Sistem Informasi Desa</span>
 				</div>
 			</a>
 
@@ -80,17 +80,17 @@
 				<h3>Pemerintah Desa Sukamaju</h3>
 				<p>Portal Resmi Publikasi & Informasi Publik Desa</p>
 				<div class="cloud-stack-badge">
-					<span>Powered by Cloudflare Pages</span>
+					<span>Teknologi Modern</span>
 					<span class="dot">•</span>
-					<span>D1 Edge SQLite</span>
+					<span>Database Cepat</span>
 					<span class="dot">•</span>
-					<span>R2 Object Storage</span>
+					<span>Penyimpanan Aman</span>
 				</div>
 			</div>
 			<div class="footer-links">
 				<a href="/">Beranda</a>
 				<a href="/admin">Kelola CMS</a>
-				<a href="https://developers.cloudflare.com/pages/" target="_blank" rel="noreferrer">Cloudflare Docs</a>
+				<a href="https://developers.cloudflare.com/pages/" target="_blank" rel="noreferrer">Panduan Teknis</a>
 			</div>
 		</div>
 		<div class="footer-bottom">
