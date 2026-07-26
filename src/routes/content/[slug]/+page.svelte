@@ -39,7 +39,7 @@
 				{data.content.category.toUpperCase()}
 			</span>
 			<span class="badge badge-{data.content.image_type}">
-				{data.content.image_type === 'r2' ? '☁️ Stored in Cloudflare R2' : '🌐 External URL Source'}
+				{data.content.image_type === 'r2' ? '☁️ Tersimpan di Server' : '🌐 Tautan Eksternal'}
 			</span>
 		</div>
 
@@ -61,7 +61,7 @@
 	<div class="featured-image-box glass-panel">
 		<img src={data.content.image_url} alt={data.content.title} class="featured-img" />
 		<div class="image-caption">
-			<span>Media Storage: <code>{data.content.image_url}</code></span>
+			<span>Sumber Gambar: <code>{data.content.image_url}</code></span>
 		</div>
 	</div>
 

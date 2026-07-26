@@ -35,9 +35,9 @@
 
 			if (result.success && result.image_url) {
 				imageUrl = result.image_url;
-				uploadSuccessMessage = result.message || 'Gambar baru berhasil diunggah ke R2!';
+				uploadSuccessMessage = result.message || 'Gambar baru berhasil diunggah!';
 			} else {
-				uploadError = result.message || 'Gagal mengunggah gambar ke Cloudflare R2';
+				uploadError = result.message || 'Gagal mengunggah gambar';
 			}
 		} catch {
 			uploadError = 'Terjadi kesalahan saat mengunggah berkas.';
@@ -75,7 +75,7 @@
 	<div class="form-container glass-panel">
 		<div class="form-header">
 			<h2>✏️ Edit Konten #{data.content.id}</h2>
-			<p>Perubahan akan langsung memperbarui baris data di Cloudflare D1.</p>
+			<p>Perubahan akan langsung memperbarui baris data di database server.</p>
 		</div>
 
 		{#if form?.message}
@@ -153,7 +153,7 @@
 						onclick={() => { imageStorageMode = 'r2'; uploadError = ''; }}
 					>
 						<span class="mode-icon">☁️</span>
-						<span>Cloudflare R2 Bucket</span>
+						<span>Tersimpan di Server</span>
 					</button>
 
 					<button
@@ -166,7 +166,7 @@
 					</button>
 				</div>
 
-				<!-- Mode A: R2 File Upload -->
+				<!-- Mode A: Unggah File -->
 				{#if imageStorageMode === 'r2'}
 					<div class="upload-box">
 						<div class="drop-zone">
@@ -181,10 +181,10 @@
 							<label for="r2_file" class="drop-zone-label">
 								{#if isUploadingR2}
 									<div class="spinner"></div>
-									<span>Mengunggah gambar ke Cloudflare R2...</span>
+									<span>Mengunggah gambar...</span>
 								{:else}
 									<span class="upload-icon">📁</span>
-									<span class="upload-text">Unggah gambar baru ke Cloudflare R2</span>
+									<span class="upload-text">Unggah gambar baru</span>
 									<span class="upload-hint">Format: JPG, PNG, WebP (Maksimal 10MB)</span>
 								{/if}
 							</label>
@@ -223,7 +223,7 @@
 						<div class="preview-header">
 							<span>Gambar Saat Ini:</span>
 							<span class="badge badge-{imageStorageMode}">
-								{imageStorageMode === 'r2' ? 'Cloudflare R2 Bucket' : 'External Image URL'}
+								{imageStorageMode === 'r2' ? 'Tersimpan di Server' : 'Tautan Eksternal'}
 							</span>
 						</div>
 						<img src={imageUrl} alt="Preview" class="preview-img" />
@@ -260,7 +260,7 @@
 			<div class="form-actions">
 				<a href="/admin" class="btn btn-secondary">Batal</a>
 				<button type="submit" class="btn btn-primary" disabled={!imageUrl}>
-					💾 Perbarui & Simpan Ke D1
+					💾 Perbarui & Simpan
 				</button>
 			</div>
 		</form>

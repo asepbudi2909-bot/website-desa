@@ -35,9 +35,9 @@
 
 			if (result.success && result.image_url) {
 				imageUrl = result.image_url;
-				uploadSuccessMessage = result.message || 'Gambar berhasil diunggah ke R2 Bucket!';
+				uploadSuccessMessage = result.message || 'Gambar berhasil diunggah!';
 			} else {
-				uploadError = result.message || 'Gagal mengunggah gambar ke Cloudflare R2';
+				uploadError = result.message || 'Gagal mengunggah gambar';
 			}
 		} catch {
 			uploadError = 'Terjadi kesalahan saat mengunggah berkas.';
@@ -75,7 +75,7 @@
 	<div class="form-container glass-panel">
 		<div class="form-header">
 			<h2>➕ Tambah Konten Desa Baru</h2>
-			<p>Konten yang dibuat akan langsung tersimpan di Cloudflare D1 Database.</p>
+			<p>Konten yang dibuat akan langsung tersimpan di database server.</p>
 		</div>
 
 		{#if form?.message}
@@ -138,7 +138,7 @@
 			<!-- Dynamic Image Storage Option (Step 4 Requirement) -->
 			<div class="storage-option-card">
 				<span class="form-label block-label">Opsi Penyimpanan Gambar Media <span class="required">*</span></span>
-				<p class="option-desc">Pilih metode penyimpanan gambar untuk publikasi ini (Cloudflare R2 atau External URL):</p>
+				<p class="option-desc">Pilih metode penyimpanan gambar untuk publikasi ini (server atau tautan eksternal):</p>
 
 				<!-- Toggle Tabs -->
 				<div class="mode-tabs">
@@ -148,7 +148,7 @@
 						onclick={() => { imageStorageMode = 'r2'; uploadError = ''; }}
 					>
 						<span class="mode-icon">☁️</span>
-						<span>Simpan Gambar ke Cloudflare R2</span>
+						<span>Simpan Gambar ke Server</span>
 					</button>
 
 					<button
@@ -161,7 +161,7 @@
 					</button>
 				</div>
 
-				<!-- Mode A: R2 File Upload -->
+				<!-- Mode A: Unggah File -->
 				{#if imageStorageMode === 'r2'}
 					<div class="upload-box">
 						<div class="drop-zone">
@@ -176,7 +176,7 @@
 							<label for="r2_file" class="drop-zone-label">
 								{#if isUploadingR2}
 									<div class="spinner"></div>
-									<span>Mengunggah gambar ke Cloudflare R2 Bucket...</span>
+									<span>Mengunggah gambar...</span>
 								{:else}
 									<span class="upload-icon">📁</span>
 									<span class="upload-text">Klik atau seret file gambar ke sini</span>
@@ -218,7 +218,7 @@
 						<div class="preview-header">
 							<span>Pratinjau Gambar:</span>
 							<span class="badge badge-{imageStorageMode}">
-								{imageStorageMode === 'r2' ? 'Cloudflare R2 Bucket' : 'External Image URL'}
+								{imageStorageMode === 'r2' ? 'Tersimpan di Server' : 'Tautan Eksternal'}
 							</span>
 						</div>
 						<img src={imageUrl} alt="Preview" class="preview-img" />
@@ -257,7 +257,7 @@
 			<div class="form-actions">
 				<a href="/admin" class="btn btn-secondary">Batal</a>
 				<button type="submit" class="btn btn-primary" disabled={!imageUrl}>
-					💾 Simpan & Publikasikan ke D1
+					💾 Simpan & Publikasikan
 				</button>
 			</div>
 		</form>

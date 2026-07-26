@@ -32,14 +32,14 @@
 		<div class="container hero-container">
 			<div class="hero-badge">
 				<span class="pulse-dot"></span>
-				Layanan Digital Cloud Native Desa
+				Portal Informasi Digital Desa
 			</div>
 			<h1 class="hero-title">
 				Selamat Datang di Portal Resmi <br />
 				<span class="gradient-text">Pemerintah Desa Sukamaju</span>
 			</h1>
 			<p class="hero-subtitle">
-				Transparansi, Kecepatan Informasi, dan Akses Pengumuman Publik Berbasis Teknologi Cloud Storage & Edge Computing.
+				Transparansi, Kecepatan Informasi, dan Akses Pengumuman Publik untuk Masyarakat Desa.
 			</p>
 
 			<!-- Village Key Stats -->
@@ -58,7 +58,7 @@
 				</div>
 				<div class="stat-card glass-panel highlight-stat">
 					<div class="stat-value">100%</div>
-					<div class="stat-label">Digital Edge (D1/R2)</div>
+					<div class="stat-label">Layanan Digital</div>
 				</div>
 			</div>
 		</div>
@@ -131,7 +131,7 @@
 										{item.category.toUpperCase()}
 									</span>
 									<span class="badge badge-{item.image_type}">
-										{item.image_type === 'r2' ? '☁️ R2 Storage' : '🌐 URL External'}
+										{item.image_type === 'r2' ? '☁️ Tersimpan di Server' : '🌐 Tautan Eksternal'}
 									</span>
 								</div>
 							</div>
