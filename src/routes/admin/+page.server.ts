@@ -1,18 +1,16 @@
+import { getAllContentForAdmin, deleteContent } from '$lib/server/db';
 import { fail, type Actions } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ fetch }) => {
-	const res = await fetch('/api/contents?admin=true');
-	const result = await res.json() as { success: boolean; data: VillageContent[] };
-	const contents = result.success ? result.data : [];
-
+export const load: PageServerLoad = async ({ platform }) => {
+	const contents = await getAllContentForAdmin(platform);
 	return {
 		contents
 	};
 };
 
 export const actions: Actions = {
-	delete: async ({ request, fetch }) => {
+	delete: async ({ request, platform }) => {
 		const formData = await request.formData();
 		const idStr = formData.get('id')?.toString();
 
@@ -20,13 +18,11 @@ export const actions: Actions = {
 			return fail(400, { message: 'ID Konten tidak valid' });
 		}
 
-		const res = await fetch(`/api/contents/${idStr}`, {
-			method: 'DELETE'
-		});
-		const result = await res.json() as { success: boolean; message?: string };
+		const id = parseInt(idStr, 10);
+		const success = await deleteContent(platform, id);
 
-		if (!result.success) {
-			return fail(500, { message: result.message || 'Gagal menghapus konten dari D1 Database' });
+		if (!success) {
+			return fail(500, { message: 'Gagal menghapus konten dari D1 Database' });
 		}
 
 		return { success: true, message: 'Konten berhasil dihapus dari Cloudflare D1!' };
