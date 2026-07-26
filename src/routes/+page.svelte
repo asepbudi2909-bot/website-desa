@@ -6,6 +6,12 @@
 	let searchQuery = $state(data.searchQuery || '');
 	let activeCategory = $state(data.selectedCategory || 'all');
 
+	// Get config or use defaults
+	const config = data.config;
+	const villageName = config?.village_name || 'Desa Sukamaju';
+	const heroImage = config?.banner_image_url || '';
+	const primaryColor = config?.primary_color || '#059669';
+
 	$effect(() => {
 		searchQuery = data.searchQuery || '';
 		activeCategory = data.selectedCategory || 'all';
@@ -23,12 +29,12 @@
 </script>
 
 <svelte:head>
-	<title>Portal Informasi Desa Sukamaju - Berita, Acara & Pengumuman</title>
+	<title>Portal Informasi {villageName} - Berita, Acara & Pengumuman</title>
 </svelte:head>
 
 <div class="home-page animate-fade-in">
 	<!-- Hero Section -->
-	<section class="hero-section">
+	<section class="hero-section" style={heroImage ? `background-image: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.75) 100%), url('${heroImage}')` : ''}>
 		<div class="container hero-container">
 			<div class="hero-badge">
 				<span class="pulse-dot"></span>
@@ -36,7 +42,7 @@
 			</div>
 			<h1 class="hero-title">
 				Selamat Datang di Portal Resmi <br />
-				<span class="gradient-text">Pemerintah Desa Sukamaju</span>
+				<span class="gradient-text">{villageName}</span>
 			</h1>
 			<p class="hero-subtitle">
 				Transparansi, Kecepatan Informasi, dan Akses Pengumuman Publik untuk Masyarakat Desa.
@@ -181,9 +187,31 @@
 
 <style>
 	.hero-section {
-		padding: 4rem 0 3rem 0;
+		padding: 6rem 0 4rem 0;
 		text-align: center;
 		position: relative;
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+		min-height: 500px;
+		display: flex;
+		align-items: center;
+	}
+
+	.hero-section::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.75) 100%);
+		z-index: 1;
+	}
+
+	.hero-container {
+		position: relative;
+		z-index: 2;
 	}
 
 	.hero-badge {
