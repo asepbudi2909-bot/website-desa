@@ -1,86 +1,52 @@
 ```
-# Compiled and build artifacts
-*.pyc
-__pycache__/
-*.o
-*.obj
-dist/
-build/
-target/
+# SvelteKit build outputs
+.svelte-kit/
 
 # Dependencies
 node_modules/
-.venv/
-venv/
+
+# Environment variables
 .env
 .env.local
 .env.*
 
-# Logs and temp files
+# Logs
 *.log
+
+# Temporary files
 *.tmp
 *.swp
 
-# Editors
+# Editor files
 .vscode/
 .idea/
 
-# OS
+# OS generated files
 .DS_Store
 Thumbs.db
 
-# Coverage
+# Build artifacts
+dist/
+build/
+target/
+
+# Python cache (if any Python files exist in the project)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Coverage reports
 coverage/
 htmlcov/
 .coverage
 
-# Python specific
-*.pyc
-__pycache__/
-*.pyo
-*.pyd
-.Python
-*.so
-*.egg-info/
-.eggs/
+# Testing
+.mypy_cache/
+.pytest_cache/
+.nyc_output/
 
-# JavaScript/Node specific
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-*.tsbuildinfo
-.next/
-.nuxt/
-.vuepress/dist
-public/dist
-
-# Java/Gradle specific
-.gradle/
-build/
-*.class
-*.jar
-*.war
-*.ear
-
-# C/C++ specific
-*.o
-*.obj
-*.a
-*.lib
-*.so
-*.dll
-*.exe
-*.out
-*.dylib
-*.ncb
-*.sdf
-*.suo
-*.pdb
-*.idb
-*.psess
-*.prof
-
-# Compression
+# Compressed files
 *.zip
 *.gz
 *.tar
@@ -99,8 +65,4 @@ build/
 *.Z
 *.lz
 *.lzo
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
 ```

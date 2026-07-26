@@ -13,9 +13,16 @@ export const load: PageServerLoad = async ({ url, platform }) => {
 		);
 	}
 
+	// Load village config for hero image and branding
+	let villageConfig = null;
+	if (platform?.env?.DB) {
+		villageConfig = await platform.env.DB.prepare('SELECT * FROM village_config WHERE id = 1').first();
+	}
+
 	return {
 		contents,
 		selectedCategory: category || 'all',
-		searchQuery: search
+		searchQuery: search,
+		config: villageConfig
 	};
 };
