@@ -13,6 +13,9 @@
     "deploy": "npm run build && wrangler deploy",
     "cf-typegen": "wrangler types ./src/worker-configuration.d.ts"
   },
+  "dependencies": {
+    "bootstrap": "^5.3.8"
+  },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^7.0.1",
     "@sveltejs/adapter-cloudflare": "^7.2.9",
