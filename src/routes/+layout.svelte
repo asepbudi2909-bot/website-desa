@@ -1,8 +1,14 @@
 <script lang="ts">
 	// Bootstrap dimuat sebelum app.css agar tema kustom (Emerald/Slate) tetap menimpa style Bootstrap
 	import 'bootstrap/dist/css/bootstrap.min.css';
-	import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 	import '../app.css';
+	import { onMount } from 'svelte';
+
+	// JS Bootstrap hanya untuk browser: modulnya menyentuh `document` saat diimpor,
+	// sehingga impor statis membuat SSR gagal di runtime Node/Workers.
+	onMount(() => {
+		import('bootstrap/dist/js/bootstrap.bundle.min.js');
+	});
 
 	let { children } = $props();
 	let isMobileMenuOpen = $state(false);
