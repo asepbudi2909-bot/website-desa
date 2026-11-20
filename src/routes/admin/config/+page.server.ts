@@ -1,165 +1,70 @@
-import type { Actions } from './$types';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail, type Actions } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
+import {
+	getVillageConfig,
+	saveVillageConfig,
+	type VillageConfigInput
+} from '$lib/server/config';
 
-export const load = async ({ locals }) => {
-	const db = locals.db;
-	
-	// Ambil konfigurasi desa
-	const config = await db
-		.select('SELECT * FROM village_config WHERE id = 1')
-		.first();
-	
+function readConfig(formData: FormData): VillageConfigInput {
+	const value = (name: string, fallback = '') =>
+		(formData.get(name) as string | null)?.trim() || fallback;
+
 	return {
-		config: config || null
+		village_name: value('village_name'),
+		village_code: value('village_code') || null,
+		district_name: value('district_name') || null,
+		regency_name: value('regency_name') || null,
+		province_name: value('province_name') || null,
+		postal_code: value('postal_code') || null,
+		address: value('address') || null,
+		phone: value('phone') || null,
+		email: value('email') || null,
+		website: value('website') || null,
+		head_of_village: value('head_of_village') || null,
+		head_title: value('head_title', 'Kepala Desa'),
+		description: value('description') || null,
+		logo_image_type: value('logo_image_type', 'url'),
+		logo_image_url: value('logo_image_url') || null,
+		banner_image_type: value('banner_image_type', 'url'),
+		banner_image_url: value('banner_image_url') || null,
+		primary_color: value('primary_color', '#059669'),
+		secondary_color: value('secondary_color', '#0284c7'),
+		social_media_facebook: value('social_media_facebook') || null,
+		social_media_instagram: value('social_media_instagram') || null,
+		social_media_twitter: value('social_media_twitter') || null,
+		social_media_youtube: value('social_media_youtube') || null
+	};
+}
+
+export const load: PageServerLoad = async ({ platform }) => {
+	return {
+		config: await getVillageConfig(platform)
 	};
 };
 
 export const actions: Actions = {
-	default: async ({ request, locals }) => {
-		const db = locals.db;
-		const formData = await request.formData();
-		
-		const data = {
-			village_name: formData.get('village_name') as string || '',
-			village_code: formData.get('village_code') as string || '',
-			district_name: formData.get('district_name') as string || '',
-			regency_name: formData.get('regency_name') as string || '',
-			province_name: formData.get('province_name') as string || '',
-			postal_code: formData.get('postal_code') as string || '',
-			address: formData.get('address') as string || '',
-			phone: formData.get('phone') as string || '',
-			email: formData.get('email') as string || '',
-			website: formData.get('website') as string || '',
-			head_of_village: formData.get('head_of_village') as string || '',
-			head_title: formData.get('head_title') as string || 'Kepala Desa',
-			description: formData.get('description') as string || '',
-			logo_image_type: formData.get('logo_image_type') as string || 'url',
-			logo_image_url: formData.get('logo_image_url') as string || '',
-			banner_image_type: formData.get('banner_image_type') as string || 'url',
-			banner_image_url: formData.get('banner_image_url') as string || '',
-			primary_color: formData.get('primary_color') as string || '#059669',
-			secondary_color: formData.get('secondary_color') as string || '#0284c7',
-			social_media_facebook: formData.get('social_media_facebook') as string || '',
-			social_media_instagram: formData.get('social_media_instagram') as string || '',
-			social_media_twitter: formData.get('social_media_twitter') as string || '',
-			social_media_youtube: formData.get('social_media_youtube') as string || ''
-		};
-		
-		// Validasi sederhana
+	default: async ({ request, platform }) => {
+		const data = readConfig(await request.formData());
+
 		if (!data.village_name) {
-			return fail(400, { 
+			return fail(400, {
 				error: 'Nama desa wajib diisi',
-				data 
+				data
 			});
 		}
-		
+
 		try {
-			// Cek apakah konfigurasi sudah ada
-			const existing = await db
-				.select('SELECT id FROM village_config WHERE id = 1')
-				.first();
-			
-			if (existing) {
-				// Update konfigurasi yang ada
-				await db.run(`
-					UPDATE village_config SET
-						village_name = ?,
-						village_code = ?,
-						district_name = ?,
-						regency_name = ?,
-						province_name = ?,
-						postal_code = ?,
-						address = ?,
-						phone = ?,
-						email = ?,
-						website = ?,
-						head_of_village = ?,
-						head_title = ?,
-						description = ?,
-						logo_image_type = ?,
-						logo_image_url = ?,
-						banner_image_type = ?,
-						banner_image_url = ?,
-						primary_color = ?,
-						secondary_color = ?,
-						social_media_facebook = ?,
-						social_media_instagram = ?,
-						social_media_twitter = ?,
-						social_media_youtube = ?,
-						updated_at = CURRENT_TIMESTAMP
-					WHERE id = 1
-				`, [
-					data.village_name,
-					data.village_code,
-					data.district_name,
-					data.regency_name,
-					data.province_name,
-					data.postal_code,
-					data.address,
-					data.phone,
-					data.email,
-					data.website,
-					data.head_of_village,
-					data.head_title,
-					data.description,
-					data.logo_image_type,
-					data.logo_image_url,
-					data.banner_image_type,
-					data.banner_image_url,
-					data.primary_color,
-					data.secondary_color,
-					data.social_media_facebook,
-					data.social_media_instagram,
-					data.social_media_twitter,
-					data.social_media_youtube
-				]);
-			} else {
-				// Insert konfigurasi baru
-				await db.run(`
-					INSERT INTO village_config (
-						id, village_name, village_code, district_name, regency_name,
-						province_name, postal_code, address, phone, email, website,
-						head_of_village, head_title, description, logo_image_type,
-						logo_image_url, banner_image_type, banner_image_url,
-						primary_color, secondary_color, social_media_facebook,
-						social_media_instagram, social_media_twitter, social_media_youtube
-					) VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-				`, [
-					data.village_name,
-					data.village_code,
-					data.district_name,
-					data.regency_name,
-					data.province_name,
-					data.postal_code,
-					data.address,
-					data.phone,
-					data.email,
-					data.website,
-					data.head_of_village,
-					data.head_title,
-					data.description,
-					data.logo_image_type,
-					data.logo_image_url,
-					data.banner_image_type,
-					data.banner_image_url,
-					data.primary_color,
-					data.secondary_color,
-					data.social_media_facebook,
-					data.social_media_instagram,
-					data.social_media_twitter,
-					data.social_media_youtube
-				]);
-			}
-			
+			await saveVillageConfig(platform, data);
 			return {
 				success: true,
 				message: 'Konfigurasi identitas desa berhasil disimpan!'
 			};
 		} catch (error) {
 			console.error('Error saving config:', error);
-			return fail(500, { 
+			return fail(500, {
 				error: 'Gagal menyimpan konfigurasi. Silakan coba lagi.',
-				data 
+				data
 			});
 		}
 	}
